@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+*{
+   font-family: 'Libre Baskerville', serif;
+
+}
+
+/* Prevent horizontal overflow on entire page */
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+  position: relative;
+}
+
+/* Fix for 100vw including scrollbar width */
+html {
+  scrollbar-gutter: stable;
+}
