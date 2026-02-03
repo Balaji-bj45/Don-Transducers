@@ -10,10 +10,8 @@ const About = () => {
     { title: "Tech Focused", icon: Settings, desc: "Specification-driven approach for engineers and integrators." },
   ];
 
-  const theme = {
-    gold: '#dcbfa4',
-    dark: '#0f0f0f',
-  };
+  // Defined single background color for consistency between Section and SVGs
+  const bgColor = '#0f0f0f';
 
   return (
     <div className="relative w-full">
@@ -29,16 +27,16 @@ const About = () => {
         >
           <path 
            d="M0,120 L1200,120 L1200,0 C1000,80 400,150 0,0 Z" 
-            fill={theme.dark}
+            fill={bgColor}
           />
         </svg>
       </div>
 
       {/* --- Main Section Content --- */}
-      <section 
-        id="about" 
+      <section
+        id="about"
         className="w-full min-h-screen flex flex-col lg:flex-row relative z-10"
-        style={{ backgroundColor: theme.dark }}
+        style={{ backgroundColor: bgColor }}
       >
 
         {/* LEFT IMAGE SECTION */}
@@ -54,7 +52,7 @@ const About = () => {
               alt="Professional Audio Speaker"
               className="w-full h-full object-cover object-center opacity-90 hover:scale-105 transition-transform duration-700"
             />
-            {/* Gradient Overlay to blend image into the dark bg at edges if needed */}
+            {/* Gradient Overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
           </div>
         </div>
@@ -127,7 +125,7 @@ const About = () => {
         >
           <path 
              d="M0,0 L1200,0 L1200,120 C1000,40 400,0 0,120 Z" 
-            fill={theme.dark}
+            fill={bgColor}
           />
         </svg>
       </div>
