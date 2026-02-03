@@ -114,6 +114,10 @@ function Navbar() {
               Products
             </MobileLink>
 
+            <MobileLink to="/events" onClick={() => setOpen(false)}>
+              Events
+            </MobileLink>
+
             <MobileLink to="/contact" onClick={() => setOpen(false)}>
               Contact
             </MobileLink>

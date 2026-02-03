@@ -6,6 +6,8 @@ import AboutPage from "./Pages/AboutPage/AboutPage";
 import ProductsPage from "./Pages/ProductsPage/ProductsPage";
 import CategoryPage from "./Pages/ProductsPage/CategoryPage";
 import ProductDetailsPage from "./Pages/ProductsPage/ProductDetailsPage";
+import EventsPage from "./Pages/EventsPage/EventsPage";
+import ContactPage from "./Pages/ContactPage/ContactPage";
 import TopScroll from "./layout/TapScroll";
 
 function App() {
@@ -20,6 +22,8 @@ function App() {
        <Route path="/products" element={<ProductsPage/>} />
        <Route path="/products/:categorySlug" element={<CategoryPage/>} />
        <Route path="/products/:categorySlug/:productSlug" element={<ProductDetailsPage/>} />
+       <Route path="/events" element={<EventsPage/>} />
+       <Route path="/contact" element={<ContactPage/>} />
       </Route>
     </Routes>
     </>
