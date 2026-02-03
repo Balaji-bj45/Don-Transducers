@@ -1,9 +1,7 @@
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
-import {
-  getProductBySlug,
-} from "../../data/productsData";
+import { getProductBySlug } from "../../data/productsData";
 
 const ProductDetailsPage = () => {
   const { categorySlug, productSlug } = useParams();
@@ -28,6 +26,25 @@ const ProductDetailsPage = () => {
   }
 
   const { product, category, section } = data;
+  const productImages = React.useMemo(() => {
+    const candidates = [
+      product?.image,
+      ...(Array.isArray(product?.images) ? product.images : []),
+    ].filter(Boolean);
+
+    const unique = [];
+    for (const image of candidates) {
+      if (!unique.includes(image)) unique.push(image);
+    }
+    return unique;
+  }, [product]);
+
+  const [activeImage, setActiveImage] = React.useState(productImages[0] || null);
+
+  React.useEffect(() => {
+    setActiveImage(productImages[0] || null);
+  }, [productImages]);
+
   const relatedProducts = category.sections.flatMap((categorySection) =>
     categorySection.products
       .filter((item) => item.slug !== product.slug)
@@ -63,15 +80,44 @@ const ProductDetailsPage = () => {
       <section className="max-w-[1400px] mx-auto px-6 lg:px-12 py-20">
         <div className="grid lg:grid-cols-12 gap-10 items-start">
           <div className="lg:col-span-7">
-            <div className="mb-10 border border-gray-200 rounded-2xl overflow-hidden bg-gray-100">
-              {product.image ? (
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-72 md:h-96 object-cover"
-                />
-              ) : (
-                <div className="w-full h-72 md:h-96 bg-gradient-to-br from-gray-100 to-gray-200" />
+            <div className="mb-10">
+              <div className="border border-gray-200 rounded-2xl overflow-hidden bg-gray-100">
+                {activeImage ? (
+                  <img
+                    src={activeImage}
+                    alt={product.name}
+                    className="w-full h-72 md:h-96 object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-72 md:h-96 bg-gradient-to-br from-gray-100 to-gray-200" />
+                )}
+              </div>
+
+              {productImages.length > 1 && (
+                <div className="mt-4 flex gap-3 overflow-x-auto pb-2">
+                  {productImages.map((image, index) => {
+                    const isActive = image === activeImage;
+                    return (
+                      <button
+                        key={`${product.slug}-${index}`}
+                        type="button"
+                        onClick={() => setActiveImage(image)}
+                        className={`flex-shrink-0 h-20 w-20 rounded-xl overflow-hidden border transition-colors ${
+                          isActive
+                            ? "border-blue-700 ring-2 ring-blue-700/40"
+                            : "border-gray-200 hover:border-gray-400"
+                        }`}
+                        aria-label={`View image ${index + 1}`}
+                      >
+                        <img
+                          src={image}
+                          alt={`${product.name} thumbnail ${index + 1}`}
+                          className="h-full w-full object-cover"
+                        />
+                      </button>
+                    );
+                  })}
+                </div>
               )}
             </div>
 

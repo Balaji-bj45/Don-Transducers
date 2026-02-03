@@ -1,6 +1,9 @@
 import imgDriver10 from "../assets/Images/speaker.png";
 import imgDriver12 from "../assets/Images/1.jpg";
 import imgDriver15 from "../assets/Images/2.jpg";
+import imgGallery3 from "../assets/Images/3.jpg";
+import imgGallery4 from "../assets/Images/4.jpeg";
+import imgGallery5 from "../assets/Images/5.jpeg";
 import imgDriver18 from "../assets/Images/9.png";
 import imgCrossover from "../assets/Images/6.png";
 import imgDiaphragm from "../assets/Images/8.png";
@@ -13,11 +16,41 @@ const slugify = (value) =>
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)+/g, "");
 
-const buildProduct = (product) => ({
-  ...product,
-  slug: product.slug || slugify(product.name),
-  image: product.image || null,
-});
+const buildImageGallery = (primaryImage, additionalImages = []) => {
+  const pool = [
+    primaryImage,
+    ...additionalImages,
+    imgDriver10,
+    imgDriver12,
+    imgDriver15,
+    imgGallery3,
+    imgGallery4,
+    imgGallery5,
+    imgDriver18,
+    imgCrossover,
+    imgDiaphragm,
+    imgCabinet,
+  ].filter(Boolean);
+
+  const unique = [];
+  for (const image of pool) {
+    if (!unique.includes(image)) unique.push(image);
+  }
+
+  return unique.slice(0, 4);
+};
+
+const buildProduct = (product) => {
+  const suppliedImages = Array.isArray(product.images) ? product.images : [];
+  const primaryImage = product.image || suppliedImages[0] || null;
+
+  return {
+    ...product,
+    slug: product.slug || slugify(product.name),
+    image: primaryImage,
+    images: buildImageGallery(primaryImage, suppliedImages),
+  };
+};
 
 export const productCategories = [
   {
