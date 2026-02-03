@@ -6,7 +6,8 @@ import {
   Building2, UserCheck, Truck, Store
 } from 'lucide-react';
 import img1 from '../../assets/Images/9.png';
-
+import AboutPageHero from '../../Components/AboutComponents/Hero.jsx';
+import OurStory from '../../Components/AboutComponents/OurStory.jsx';
 // Images: Open source (Unsplash)
 const IMAGES = {
   workshop: "https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=800&auto=format&fit=crop&q=80",
@@ -25,116 +26,12 @@ const AboutPage = () => {
       {/* ═══════════════════════════════════════════════════════════════════
           HERO SECTION - DARK MODE
       ═══════════════════════════════════════════════════════════════════ */}
-      <div className="min-h-screen text-white font-sans overflow-x-hidden selection:bg-blue-700 selection:text-white py-10 bg-black">
-        <section className="relative w-full max-w-[1400px] mx-auto pt-16 pb-2 px-6 lg:px-12 flex flex-col lg:flex-row items-center gap-16">
-          
-          {/* LEFT: TYPOGRAPHY */}
-          <div className="w-full lg:w-1/2 z-10 relative">
-            <div className="absolute -left-6 top-2 bottom-2 w-[1px] bg-gradient-to-b from-gray-200 via-gray-400 to-gray-200 hidden lg:block"></div>
-
-            <h5 className="text-blue-500 font-bold text-xs uppercase tracking-[0.3em] mb-6 flex items-center gap-3">
-              <span className="w-8 h-[1px] bg-blue-500"></span>
-              About Don Transducers
-            </h5>
-
-            <h1 className="text-5xl lg:text-8xl font-light leading-[1.1] mb-8 font-serif">
-              Precision in <br/>
-              <span className="italic font-normal text-blue-400">Every Pulse.</span>
-            </h1>
-
-            <p className="text-gray-400 text-lg leading-relaxed max-w-md mb-10">
-              Don Transducers creates the invisible force that moves the crowd. We engineer 
-              <span className="font-semibold text-white"> passive drivers, crossovers, and cabinets </span> 
-              defined by durability and pure sonic specification.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-6">
-              <div className="pr-6 sm:border-r border-gray-700">
-                <p className="text-3xl font-bold font-serif">10-18"</p>
-                <p className="text-xs text-gray-500 uppercase tracking-wider mt-1">Driver Range</p>
-              </div>
-              <div className="pr-6 sm:border-r border-gray-700">
-                <p className="text-3xl font-bold font-serif">2000W</p>
-                <p className="text-xs text-gray-500 uppercase tracking-wider mt-1">Max Power</p>
-              </div>
-              <div className="flex items-center">
-                <a href="#products" className="group flex items-center gap-2 text-sm font-bold border-b border-white pb-1 hover:text-blue-400 hover:border-blue-400 transition-colors">
-                  Explore Series <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform"/>
-                </a>
-              </div>
-            </div>
-          </div>
-
-          {/* RIGHT: GEOMETRIC IMAGE */}
-          <div className="w-full lg:w-1/2 relative flex justify-center items-center">
-            <div className="relative w-[300px] h-[300px] md:w-[500px] md:h-[500px] rounded-full border-[1px] border-gray-700 p-4">
-              <div className="w-full h-full rounded-full overflow-hidden relative shadow-2xl animate-[spin_60s_linear_infinite_reverse] hover:animate-none transition-all">
-                <img src={img1} alt="Speaker Driver" className="w-full h-full object-cover scale-125" />
-                <div className="absolute inset-0 shadow-[inset_0_0_40px_rgba(0,0,0,0.3)] pointer-events-none rounded-full"></div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </div>
+     <AboutPageHero />
 
       {/* ═══════════════════════════════════════════════════════════════════
           OUR STORY SECTION - LIGHT MODE
       ═══════════════════════════════════════════════════════════════════ */}
-      <section className="w-full max-w-[1400px] mx-auto py-24 px-6 lg:px-12 bg-white">
-        <div className="grid lg:grid-cols-2 gap-16 items-start">
-          <div>
-            <span className="text-blue-700 font-mono text-sm tracking-wider">01 — OUR STORY</span>
-            <h2 className="text-4xl lg:text-5xl font-serif font-light mt-4 mb-8 text-black">
-              Built from the <br/>
-              <span className="italic">ground up.</span>
-            </h2>
-            
-            <div className="space-y-6 text-gray-600 leading-relaxed">
-              <p>
-                Founded in 2008 in the industrial heartland, Don Transducers began as a simple 
-                workshop with a singular obsession: <span className="text-black font-medium">perfect sound reproduction.</span>
-              </p>
-              <p>
-                What started as custom builds for local venues evolved into a reputation that 
-                spread across continents. Today, our transducers power festivals, concert halls, 
-                and installations in over 40 countries.
-              </p>
-              <p>
-                We never chased trends. We chased physics. Every driver we produce undergoes 
-                rigorous testing protocols that exceed industry standards by a factor of three. 
-                This isn't marketing—it's methodology.
-              </p>
-            </div>
-
-            <div className="mt-10 flex gap-8">
-              <div>
-                <p className="text-4xl font-serif font-bold text-black">40+</p>
-                <p className="text-sm text-gray-500 uppercase tracking-wider mt-1">Countries</p>
-              </div>
-              <div>
-                <p className="text-4xl font-serif font-bold text-black">15</p>
-                <p className="text-sm text-gray-500 uppercase tracking-wider mt-1">Years Active</p>
-              </div>
-              <div>
-                <p className="text-4xl font-serif font-bold text-black">50K+</p>
-                <p className="text-sm text-gray-500 uppercase tracking-wider mt-1">Units Shipped</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="relative">
-            <img 
-              src={img1} 
-              alt="Workshop" 
-              className="w-full h-[500px] object-cover  "
-            />
-            <div className="absolute -bottom-6 -left-6 bg-blue-700 text-white p-6 max-w-[280px]">
-              <p className="text-sm font-mono uppercase tracking-wider mb-2">Since 2008</p>
-              <p className="text-lg font-serif italic">Engineering sound that moves people.</p>
-            </div>
-          </div>
-        </div>
-      </section>
+    <OurStory />
 
       {/* ═══════════════════════════════════════════════════════════════════
           WHO WE SERVE SECTION - LIGHT MODE (NEW)
