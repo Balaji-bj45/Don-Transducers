@@ -50,6 +50,7 @@ const ProductDetailsPage = () => {
       .filter((item) => item.slug !== product.slug)
       .map((item) => ({ item, sectionTitle: categorySection.title }))
   );
+
   const specEntries = Object.entries(product.specs || {});
 
   return (
@@ -63,12 +64,15 @@ const ProductDetailsPage = () => {
             <ArrowLeft size={14} />
             {category.name}
           </Link>
+
           <h1 className="text-4xl lg:text-6xl font-serif font-light mt-6">
             {product.name}
           </h1>
+
           <p className="text-gray-300 text-lg mt-4 max-w-2xl">
             {section.title}
           </p>
+
           {product.status && (
             <div className="mt-6 inline-flex items-center gap-2 bg-white/10 border border-white/20 px-4 py-2 text-xs uppercase tracking-widest text-white">
               {product.status}
@@ -79,6 +83,8 @@ const ProductDetailsPage = () => {
 
       <section className="max-w-[1400px] mx-auto px-6 lg:px-12 py-20">
         <div className="grid lg:grid-cols-12 gap-10 items-start">
+          
+          {/* ✅ LEFT SIDE - Images + Product Summary */}
           <div className="lg:col-span-7">
             <div className="mb-10">
               <div className="border border-gray-200 rounded-2xl overflow-hidden bg-gray-100">
@@ -121,7 +127,48 @@ const ProductDetailsPage = () => {
               )}
             </div>
 
+            {/* ✅ Product Summary moved here */}
+            <div className="border border-gray-200 rounded-2xl p-6">
+              <h3 className="text-xl font-serif mb-4">Product Summary</h3>
+              <p className="text-sm text-gray-600 leading-relaxed">
+                {product.name} is listed under {category.name} in the catalog.
+                Refer to the specifications table for the full technical details
+                provided.
+              </p>
+
+              <div className="mt-6 space-y-3 text-sm text-gray-600">
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Category</span>
+                  <span className="font-medium">{category.name}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Group</span>
+                  <span className="font-medium">{section.title}</span>
+                </div>
+              </div>
+
+              <div className="mt-8 flex flex-col gap-3">
+                <Link
+                  to="/contact"
+                  className="inline-flex items-center justify-center gap-2 bg-black text-white px-4 py-3 text-xs font-bold uppercase tracking-wider hover:bg-blue-700 transition-colors"
+                >
+                  Request Datasheet <ArrowUpRight size={14} />
+                </Link>
+
+                <Link
+                  to={`/products/${category.slug}`}
+                  className="inline-flex items-center justify-center gap-2 border border-black/20 text-black px-4 py-3 text-xs font-bold uppercase tracking-wider hover:bg-black hover:text-white transition-colors"
+                >
+                  Back to Category
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          {/* ✅ RIGHT SIDE - Specifications moved here */}
+          <div className="lg:col-span-5">
             <h2 className="text-2xl font-serif mb-6">Specifications</h2>
+
             {specEntries.length > 0 ? (
               <div className="border border-gray-200 rounded-2xl overflow-hidden">
                 {specEntries.map(([label, value], index) => (
@@ -148,40 +195,6 @@ const ProductDetailsPage = () => {
             )}
           </div>
 
-          <div className="lg:col-span-5">
-            <div className="border border-gray-200 rounded-2xl p-6">
-              <h3 className="text-xl font-serif mb-4">Product Summary</h3>
-              <p className="text-sm text-gray-600 leading-relaxed">
-                {product.name} is listed under {category.name} in the catalog.
-                Refer to the specifications table for the full technical details
-                provided.
-              </p>
-              <div className="mt-6 space-y-3 text-sm text-gray-600">
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Category</span>
-                  <span className="font-medium">{category.name}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Group</span>
-                  <span className="font-medium">{section.title}</span>
-                </div>
-              </div>
-              <div className="mt-8 flex flex-col gap-3">
-                <Link
-                  to="/contact"
-                  className="inline-flex items-center justify-center gap-2 bg-black text-white px-4 py-3 text-xs font-bold uppercase tracking-wider hover:bg-blue-700 transition-colors"
-                >
-                  Request Datasheet <ArrowUpRight size={14} />
-                </Link>
-                <Link
-                  to={`/products/${category.slug}`}
-                  className="inline-flex items-center justify-center gap-2 border border-black/20 text-black px-4 py-3 text-xs font-bold uppercase tracking-wider hover:bg-black hover:text-white transition-colors"
-                >
-                  Back to Category
-                </Link>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -229,9 +242,7 @@ const ProductDetailsPage = () => {
                       {item.status}
                     </span>
                   )}
-                  <div className="mt-4 text-sm text-gray-500">
-                    {sectionTitle}
-                  </div>
+                  <div className="mt-4 text-sm text-gray-500">{sectionTitle}</div>
                 </Link>
               ))}
             </div>
