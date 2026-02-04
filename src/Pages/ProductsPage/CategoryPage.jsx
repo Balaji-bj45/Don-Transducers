@@ -50,12 +50,12 @@ const CategoryPage = () => {
   return (
     <div className="min-h-screen bg-white  "  >
       {/* Clean Header */}
-      <header className="sticky top-0 z-40 bg-black backdrop-blur-sm border-b border-gray-900 pt-20">
+      <header className=" top-0 z-40 bg-black backdrop-blur-sm border-b border-gray-900 pt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <Link
               to="/products"
-              className="flex items-center gap-2 text-gray-300 hover:text-gray-900 transition-colors"
+              className="flex items-center gap-2 text-gray-300 hover:text-gray-500 transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />
               <span className="text-sm font-medium">Products</span>
@@ -117,7 +117,7 @@ const CategoryPage = () => {
       </section>
 
       {/* Filter Bar */}
-      <section className="sticky top-16 z-30 bg-white border-b border-gray-100">
+      <section className=" top-16 z-30 bg-white border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
             {/* Search */}
