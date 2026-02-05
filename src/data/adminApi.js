@@ -52,6 +52,9 @@ export const getProductRequests = () => request("/api/product-requests");
 export const clearProductRequests = () =>
   request("/api/product-requests", { method: "DELETE" });
 
+export const deleteProductRequest = (id) =>
+  request(`/api/product-requests/${id}`, { method: "DELETE" });
+
 export const createContactRequest = (payload) =>
   request("/api/contact-requests", {
     method: "POST",
@@ -62,6 +65,9 @@ export const getContactRequests = () => request("/api/contact-requests");
 
 export const clearContactRequests = () =>
   request("/api/contact-requests", { method: "DELETE" });
+
+export const deleteContactRequest = (id) =>
+  request(`/api/contact-requests/${id}`, { method: "DELETE" });
 
 export const loginAdmin = async (payload) => {
   const result = await request("/api/admin/login", {
