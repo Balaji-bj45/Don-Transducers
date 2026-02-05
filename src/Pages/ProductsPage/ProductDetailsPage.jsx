@@ -14,6 +14,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { getProductBySlug } from "../../data/productsData";
+import { createProductRequest } from "../../data/adminApi";
 
 const ProductDetailsPage = () => {
   const { categorySlug, productSlug } = useParams();
@@ -24,6 +25,7 @@ const ProductDetailsPage = () => {
   const [isRelatedOpen, setIsRelatedOpen] = React.useState(false);
   const [isRequestOpen, setIsRequestOpen] = React.useState(false);
   const [isSubmitted, setIsSubmitted] = React.useState(false);
+  const [submitError, setSubmitError] = React.useState("");
   const [formData, setFormData] = React.useState({
     fullName: "",
     phone: "",
@@ -139,12 +141,14 @@ const ProductDetailsPage = () => {
 
   const handleOpenRequest = () => {
     setIsSubmitted(false);
+    setSubmitError("");
     setFormData({ fullName: "", phone: "", email: "", message: "" });
     setIsRequestOpen(true);
   };
 
   const handleCloseRequest = () => {
     setIsRequestOpen(false);
+    setSubmitError("");
   };
 
   const handleFormChange = (event) => {
@@ -152,10 +156,30 @@ const ProductDetailsPage = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleFormSubmit = (event) => {
+  const handleFormSubmit = async (event) => {
     event.preventDefault();
-    setIsSubmitted(true);
-    setTimeout(() => setIsRequestOpen(false), 1200);
+    setSubmitError("");
+    try {
+      await createProductRequest({
+        fullName: formData.fullName,
+        phone: formData.phone,
+        email: formData.email,
+        message: formData.message,
+        product: {
+          name: product.name,
+          slug: product.slug || productSlug,
+          categoryName: category.name,
+          categorySlug: category.slug,
+          sectionTitle: section.title,
+          image: product.image || null,
+        },
+        productPath: `/products/${category.slug}/${product.slug || productSlug}`,
+      });
+      setIsSubmitted(true);
+      setTimeout(() => setIsRequestOpen(false), 1200);
+    } catch (error) {
+      setSubmitError(error.message || "Failed to send request.");
+    }
   };
 
   const handleShare = () => {
@@ -589,6 +613,11 @@ const ProductDetailsPage = () => {
               <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700 flex items-center gap-2">
                 <Check className="w-4 h-4" />
                 Thanks! Your request has been submitted.
+              </div>
+            )}
+            {submitError && (
+              <div className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
+                {submitError}
               </div>
             )}
 

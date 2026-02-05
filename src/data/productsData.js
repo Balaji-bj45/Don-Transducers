@@ -8,6 +8,7 @@ import imgDriver18 from "../assets/Images/9.png";
 import imgCrossover from "../assets/Images/6.png";
 import imgDiaphragm from "../assets/Images/8.png";
 import imgCabinet from "../assets/Images/background.png";
+import imgEvents from "../assets/Images/events.jpg";
 
 const slugify = (value) =>
   value
@@ -17,27 +18,14 @@ const slugify = (value) =>
     .replace(/(^-|-$)+/g, "");
 
 const buildImageGallery = (primaryImage, additionalImages = []) => {
-  const pool = [
-    primaryImage,
-    ...additionalImages,
-    imgDriver10,
-    imgDriver12,
-    imgDriver15,
-    imgGallery3,
-    imgGallery4,
-    imgGallery5,
-    imgDriver18,
-    imgCrossover,
-    imgDiaphragm,
-    imgCabinet,
-  ].filter(Boolean);
+  const pool = [primaryImage, ...additionalImages].filter(Boolean);
 
   const unique = [];
   for (const image of pool) {
     if (!unique.includes(image)) unique.push(image);
   }
 
-  return unique.slice(0, 4);
+  return unique;
 };
 
 const buildProduct = (product) => {
@@ -50,6 +38,17 @@ const buildProduct = (product) => {
     image: primaryImage,
     images: buildImageGallery(primaryImage, suppliedImages),
   };
+};
+
+const gallerySets = {
+  driver10: [imgDriver10, imgDriver12, imgDriver15, imgGallery3],
+  driver12: [imgDriver12, imgDriver10, imgDriver15, imgGallery4],
+  driver15: [imgDriver15, imgDriver10, imgDriver12, imgGallery5],
+  driver18: [imgDriver18, imgDriver15, imgDriver12, imgGallery3],
+  crossover: [imgCrossover, imgGallery3, imgGallery4, imgGallery5],
+  diaphragm: [imgDiaphragm, imgGallery3, imgGallery4, imgGallery5],
+  cabinetBass: [imgCabinet, imgEvents, imgGallery4, imgGallery5],
+  cabinetTop: [imgCabinet, imgEvents, imgGallery3, imgGallery4],
 };
 
 export const productCategories = [
@@ -66,6 +65,7 @@ export const productCategories = [
           buildProduct({
             name: "10X500B",
             image: imgDriver10,
+            images: gallerySets.driver10,
             specs: {
               Size: '12"',
               "Voice coil": '3" In/Out',
@@ -80,6 +80,7 @@ export const productCategories = [
           buildProduct({
             name: "10X500NEO",
             image: imgDriver10,
+            images: gallerySets.driver10,
             specs: {
               Size: '10"',
               "Voice coil": '3" In/Out',
@@ -99,6 +100,7 @@ export const productCategories = [
           buildProduct({
             name: "12X100w",
             image: imgDriver12,
+            images: gallerySets.driver12,
             specs: {
               Size: '12"',
               "Voice coil": '1.5" Out',
@@ -113,6 +115,7 @@ export const productCategories = [
           buildProduct({
             name: "12X200w",
             image: imgDriver12,
+            images: gallerySets.driver12,
             specs: {
               Size: '12"',
               "Voice coil": '2" Out',
@@ -127,6 +130,7 @@ export const productCategories = [
           buildProduct({
             name: "12X200B",
             image: imgDriver12,
+            images: gallerySets.driver12,
             specs: {
               Size: '12"',
               "Voice coil": '1.75" Out',
@@ -141,6 +145,7 @@ export const productCategories = [
           buildProduct({
             name: "12X250w",
             image: imgDriver12,
+            images: gallerySets.driver12,
             specs: {
               Size: '12"',
               "Voice coil": '2" In/Out',
@@ -155,6 +160,7 @@ export const productCategories = [
           buildProduct({
             name: "12X500B",
             image: imgDriver12,
+            images: gallerySets.driver12,
             specs: {
               Size: '12"',
               "Voice coil": '3" In/Out',
@@ -169,6 +175,7 @@ export const productCategories = [
           buildProduct({
             name: "12X500NEO",
             image: imgDriver12,
+            images: gallerySets.driver12,
             specs: {
               Size: '12"',
               "Voice coil": '3" In/Out',
@@ -188,6 +195,7 @@ export const productCategories = [
           buildProduct({
             name: "15X400B",
             image: imgDriver15,
+            images: gallerySets.driver15,
             specs: {
               Size: '15"',
               "Voice coil": '3" In/Out',
@@ -202,6 +210,7 @@ export const productCategories = [
           buildProduct({
             name: "15X500BB",
             image: imgDriver15,
+            images: gallerySets.driver15,
             specs: {
               Size: '15"',
               "Voice coil": '3" In/Out',
@@ -216,6 +225,7 @@ export const productCategories = [
           buildProduct({
             name: "15X500BW",
             image: imgDriver15,
+            images: gallerySets.driver15,
             specs: {
               Size: '15"',
               "Voice coil": '3" In/Out',
@@ -230,6 +240,7 @@ export const productCategories = [
           buildProduct({
             name: "15X800B",
             image: imgDriver15,
+            images: gallerySets.driver15,
             specs: {
               Size: '15"',
               "Voice coil": '4" In/Out',
@@ -249,6 +260,7 @@ export const productCategories = [
           buildProduct({
             name: "18X1200B",
             image: imgDriver18,
+            images: gallerySets.driver18,
             specs: {
               Size: '18"',
               "Voice coil": '4" In/Out',
@@ -263,6 +275,7 @@ export const productCategories = [
           buildProduct({
             name: "18X1500B",
             image: imgDriver18,
+            images: gallerySets.driver18,
             specs: {
               Size: '18"',
               "Voice coil": '4" In/Out',
@@ -278,11 +291,13 @@ export const productCategories = [
             name: "18X1800B",
             status: "Coming Soon",
             image: imgDriver18,
+            images: gallerySets.driver18,
             specs: {},
           }),
           buildProduct({
             name: "18X2000B",
             image: imgDriver18,
+            images: gallerySets.driver18,
             specs: {
               Size: '18"',
               "Voice coil": '5" In/Out',
@@ -307,16 +322,30 @@ export const productCategories = [
       {
         title: "Passive Crossover",
         products: [
-          buildProduct({ name: "450 Network Board", image: imgCrossover }),
-          buildProduct({ name: "518 Network Board", image: imgCrossover }),
-          buildProduct({ name: "750 Network Board", image: imgCrossover }),
+          buildProduct({
+            name: "450 Network Board",
+            image: imgCrossover,
+            images: gallerySets.crossover,
+          }),
+          buildProduct({
+            name: "518 Network Board",
+            image: imgCrossover,
+            images: gallerySets.crossover,
+          }),
+          buildProduct({
+            name: "750 Network Board",
+            image: imgCrossover,
+            images: gallerySets.crossover,
+          }),
           buildProduct({
             name: "2Way 518+500 Network Board",
             image: imgCrossover,
+            images: gallerySets.crossover,
           }),
           buildProduct({
             name: "3Way 750+500+500 Network Board",
             image: imgCrossover,
+            images: gallerySets.crossover,
           }),
         ],
       },
@@ -327,6 +356,7 @@ export const productCategories = [
             name: "234XLS Crossover",
             status: "Coming Soon",
             image: imgCrossover,
+            images: gallerySets.crossover,
           }),
         ],
       },
@@ -341,10 +371,26 @@ export const productCategories = [
       {
         title: "Available Diaphragms",
         products: [
-          buildProduct({ name: "450 Diaphragm", image: imgDiaphragm }),
-          buildProduct({ name: "518 Diaphragm", image: imgDiaphragm }),
-          buildProduct({ name: "750 Diaphragm", image: imgDiaphragm }),
-          buildProduct({ name: "Vrx Diaphragm", image: imgDiaphragm }),
+          buildProduct({
+            name: "450 Diaphragm",
+            image: imgDiaphragm,
+            images: gallerySets.diaphragm,
+          }),
+          buildProduct({
+            name: "518 Diaphragm",
+            image: imgDiaphragm,
+            images: gallerySets.diaphragm,
+          }),
+          buildProduct({
+            name: "750 Diaphragm",
+            image: imgDiaphragm,
+            images: gallerySets.diaphragm,
+          }),
+          buildProduct({
+            name: "Vrx Diaphragm",
+            image: imgDiaphragm,
+            images: gallerySets.diaphragm,
+          }),
         ],
       },
     ],
@@ -357,14 +403,32 @@ export const productCategories = [
     sections: [
       {
         title: "Bass",
-        products: [buildProduct({ name: "T RDX -Bass", image: imgCabinet })],
+        products: [
+          buildProduct({
+            name: "T RDX -Bass",
+            image: imgCabinet,
+            images: gallerySets.cabinetBass,
+          }),
+        ],
       },
       {
         title: "Top",
         products: [
-          buildProduct({ name: "T 999 - Double 15\"", image: imgCabinet }),
-          buildProduct({ name: "T 444 - Single 15\"", image: imgCabinet }),
-          buildProduct({ name: "TT+ - Single 12\"", image: imgCabinet }),
+          buildProduct({
+            name: "T 999 - Double 15\"",
+            image: imgCabinet,
+            images: gallerySets.cabinetTop,
+          }),
+          buildProduct({
+            name: "T 444 - Single 15\"",
+            image: imgCabinet,
+            images: gallerySets.cabinetTop,
+          }),
+          buildProduct({
+            name: "TT+ - Single 12\"",
+            image: imgCabinet,
+            images: gallerySets.cabinetTop,
+          }),
         ],
       },
     ],

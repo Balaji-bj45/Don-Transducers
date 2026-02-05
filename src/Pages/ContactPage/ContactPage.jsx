@@ -14,6 +14,7 @@ import {
   Facebook,
 } from "lucide-react";
 import heroImg from "../../assets/Images/background.png";
+import { createContactRequest } from "../../data/adminApi";
 
 const ContactPage = () => {
   const prefersReducedMotion = useReducedMotion();
@@ -49,6 +50,7 @@ const ContactPage = () => {
     message: "",
   });
   const [status, setStatus] = useState(null);
+  const [submitError, setSubmitError] = useState("");
 
   const socials = [
     { label: "LinkedIn", href: "#", Icon: Linkedin },
@@ -62,11 +64,22 @@ const ContactPage = () => {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    setStatus("Thanks! We received your message and will get back to you soon.");
-    setForm({ name: "", email: "", phone: "", message: "" });
-    window.setTimeout(() => setStatus(null), 6000);
+    setSubmitError("");
+    try {
+      await createContactRequest({
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
+        message: form.message,
+      });
+      setStatus("Thanks! We received your message and will get back to you soon.");
+      setForm({ name: "", email: "", phone: "", message: "" });
+      window.setTimeout(() => setStatus(null), 6000);
+    } catch (error) {
+      setSubmitError(error.message || "Failed to send message.");
+    }
   };
 
   const mapSrc =
@@ -224,6 +237,11 @@ const ContactPage = () => {
               {status && (
                 <div className="mt-6 border border-emerald-500/30 bg-emerald-500/10 text-emerald-200 rounded-2xl px-5 py-4 text-sm">
                   {status}
+                </div>
+              )}
+              {submitError && (
+                <div className="mt-6 border border-rose-500/30 bg-rose-500/10 text-rose-200 rounded-2xl px-5 py-4 text-sm">
+                  {submitError}
                 </div>
               )}
 
