@@ -13,6 +13,12 @@ const CategoryPage = () => {
   const [searchQuery, setSearchQuery] = React.useState('');
   const [selectedSection, setSelectedSection] = React.useState('all');
 
+  // Reset filters when category changes
+  React.useEffect(() => {
+    setSearchQuery('');
+    setSelectedSection('all');
+  }, [categorySlug]);
+
   if (!category) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center px-4">
@@ -41,8 +47,8 @@ const CategoryPage = () => {
   const allProducts = getAllProductsForCategory(category);
   const filteredProducts = category.sections
     .filter(section => selectedSection === 'all' || section.title === selectedSection)
-    .flatMap(section => 
-      section.products.filter(product => 
+    .flatMap(section =>
+      section.products.filter(product =>
         product.name.toLowerCase().includes(searchQuery.toLowerCase())
       ).map(product => ({ ...product, sectionTitle: section.title }))
     );
@@ -60,21 +66,19 @@ const CategoryPage = () => {
               <ArrowLeft className="w-4 h-4" />
               <span className="text-sm font-medium">Products</span>
             </Link>
-            
+
             <div className="flex items-center gap-4">
               <button
                 onClick={() => setView('grid')}
-                className={`p-2 rounded-lg transition-colors ${
-                  view === 'grid' ? 'bg-gray-100 text-gray-900' : 'text-gray-400 hover:text-gray-600'
-                }`}
+                className={`p-2 rounded-lg transition-colors ${view === 'grid' ? 'bg-gray-100 text-gray-900' : 'text-gray-400 hover:text-gray-600'
+                  }`}
               >
                 <Grid2X2 className="w-5 h-5" />
               </button>
               <button
                 onClick={() => setView('list')}
-                className={`p-2 rounded-lg transition-colors ${
-                  view === 'list' ? 'bg-gray-100 text-gray-900' : 'text-gray-400 hover:text-gray-600'
-                }`}
+                className={`p-2 rounded-lg transition-colors ${view === 'list' ? 'bg-gray-100 text-gray-900' : 'text-gray-400 hover:text-gray-600'
+                  }`}
               >
                 <List className="w-5 h-5" />
               </button>
@@ -93,14 +97,14 @@ const CategoryPage = () => {
             <p className="text-lg text-gray-400 mb-8">
               {category.description}
             </p>
-            
+
             {category.notice && (
               <div className="inline-flex items-center gap-2 bg-amber-50 text-amber-900 px-4 py-2 rounded-lg text-sm">
                 <span className="w-1.5 h-1.5 bg-amber-500 rounded-full"></span>
                 {category.notice}
               </div>
             )}
-            
+
             <div className="flex items-center gap-8 mt-8">
               <div>
                 <div className="text-3xl font-semibold text-gray-400">{allProducts.length}</div>
@@ -131,16 +135,15 @@ const CategoryPage = () => {
                 className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all"
               />
             </div>
-            
+
             {/* Section Filter */}
             <div className="flex items-center gap-2 overflow-x-auto">
               <button
                 onClick={() => setSelectedSection('all')}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap ${
-                  selectedSection === 'all'
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap ${selectedSection === 'all'
                     ? 'bg-gray-900 text-white'
                     : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
-                }`}
+                  }`}
               >
                 All
               </button>
@@ -148,11 +151,10 @@ const CategoryPage = () => {
                 <button
                   key={section.title}
                   onClick={() => setSelectedSection(section.title)}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap ${
-                    selectedSection === section.title
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap ${selectedSection === section.title
                       ? 'bg-gray-900 text-white'
                       : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
-                  }`}
+                    }`}
                 >
                   {section.title}
                 </button>
@@ -195,20 +197,20 @@ const CategoryPage = () => {
                         </div>
                       )}
                     </div>
-                    
+
                     <div className="p-5">
                       <div className="text-xs text-gray-500 mb-2">{product.sectionTitle}</div>
                       <h3 className="text-base font-medium text-gray-900 mb-3 line-clamp-2">
                         {product.name}
                       </h3>
-                      
+
                       {Object.entries(product.specs || {}).slice(0, 2).map(([key, value]) => (
                         <div key={key} className="flex justify-between text-sm mb-1">
                           <span className="text-gray-500">{key}</span>
                           <span className="text-gray-900 font-medium">{value}</span>
                         </div>
                       ))}
-                      
+
                       {product.status && (
                         <div className="mt-3 inline-flex items-center gap-1 text-xs text-amber-600 bg-amber-50 px-2 py-1 rounded">
                           <span className="w-1 h-1 bg-amber-500 rounded-full"></span>
@@ -241,7 +243,7 @@ const CategoryPage = () => {
                           <div className="w-full h-full bg-gray-100"></div>
                         )}
                       </div>
-                      
+
                       <div className="flex-1 min-w-0">
                         <div className="text-xs text-gray-500 mb-1">{product.sectionTitle}</div>
                         <h3 className="text-base font-medium text-gray-900 mb-2">
@@ -256,7 +258,7 @@ const CategoryPage = () => {
                           ))}
                         </div>
                       </div>
-                      
+
                       <div className="flex items-center gap-3">
                         {product.status && (
                           <span className="text-xs text-amber-600 bg-amber-50 px-2 py-1 rounded">

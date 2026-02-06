@@ -33,6 +33,22 @@ const ProductDetailsPage = () => {
     message: "",
   });
 
+  // Reset state when product changes
+  React.useEffect(() => {
+    setActiveImage(0);
+    setCopied(false);
+    setIsRelatedOpen(false);
+    setIsRequestOpen(false);
+    setIsSubmitted(false);
+    setSubmitError("");
+    setFormData({
+      fullName: "",
+      phone: "",
+      email: "",
+      message: "",
+    });
+  }, [categorySlug, productSlug]);
+
   // Handle browser back button for modals
   React.useEffect(() => {
     const handlePopState = (event) => {
@@ -108,7 +124,7 @@ const ProductDetailsPage = () => {
   }
 
   const { product, category, section } = data;
-  
+
   const productImages = React.useMemo(() => {
     const candidates = [
       product?.image,
@@ -207,7 +223,7 @@ const ProductDetailsPage = () => {
                 {product.name}
               </span>
             </nav>
-            
+
             <button
               onClick={handleShare}
               className="p-2 hover:bg-gray-800 rounded-lg transition-colors flex-shrink-0 ml-2"
@@ -221,7 +237,7 @@ const ProductDetailsPage = () => {
       {/* Product Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16">
-          
+
           {/* Image Gallery */}
           <div>
             <div className="lg:sticky lg:top-28">
@@ -238,7 +254,7 @@ const ProductDetailsPage = () => {
                   </div>
                 )}
               </div>
-              
+
               {productImages.length > 1 && (
                 <div className="flex items-center justify-between gap-4">
                   <button
@@ -248,21 +264,20 @@ const ProductDetailsPage = () => {
                   >
                     <ChevronLeft className="w-5 h-5" />
                   </button>
-                  
+
                   <div className="flex gap-2 overflow-x-auto py-1">
                     {productImages.map((image, idx) => (
                       <button
                         key={idx}
                         onClick={() => setActiveImage(idx)}
-                        className={`w-14 h-14 sm:w-16 sm:h-16 rounded-lg overflow-hidden border-2 transition-all flex-shrink-0 ${
-                          idx === activeImage ? "border-gray-900" : "border-gray-200 hover:border-gray-400"
-                        }`}
+                        className={`w-14 h-14 sm:w-16 sm:h-16 rounded-lg overflow-hidden border-2 transition-all flex-shrink-0 ${idx === activeImage ? "border-gray-900" : "border-gray-200 hover:border-gray-400"
+                          }`}
                       >
                         <img src={image} alt={`View ${idx + 1}`} className="w-full h-full object-cover" />
                       </button>
                     ))}
                   </div>
-                  
+
                   <button
                     onClick={() => setActiveImage(Math.min(productImages.length - 1, activeImage + 1))}
                     disabled={activeImage === productImages.length - 1}
@@ -283,20 +298,20 @@ const ProductDetailsPage = () => {
                 <span>·</span>
                 <span>{section.title}</span>
               </div>
-              
+
               <h1 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-gray-900 mb-4">
                 {product.name}
               </h1>
-              
+
               {product.status && (
                 <div className="inline-flex items-center gap-2 bg-amber-50 text-amber-900 px-3 py-1.5 rounded-lg text-sm">
                   <span className="w-1.5 h-1.5 bg-amber-500 rounded-full"></span>
                   {product.status}
                 </div>
               )}
-              
+
               <p className="text-gray-600 mt-4 lg:mt-6 leading-relaxed text-sm sm:text-base">
-                Premium quality product from our {category.name} collection. 
+                Premium quality product from our {category.name} collection.
                 This item is part of the {section.title} series.
               </p>
             </div>
@@ -304,7 +319,7 @@ const ProductDetailsPage = () => {
             {/* Specifications */}
             <div className="mb-6 lg:mb-8">
               <h2 className="text-lg font-medium text-gray-900 mb-4">Specifications</h2>
-              
+
               {specEntries.length > 0 ? (
                 <div className="bg-gray-50 rounded-xl p-4 sm:p-6 space-y-3">
                   {specEntries.map(([label, value]) => (
@@ -333,7 +348,7 @@ const ProductDetailsPage = () => {
                 <Mail className="w-4 h-4" />
                 Request Information
               </button>
-              
+
               <Link
                 to="/contact"
                 className="flex items-center justify-center gap-2 w-full bg-white text-gray-900 border border-gray-200 py-3.5 rounded-xl hover:bg-gray-50 transition-colors font-medium"
@@ -357,7 +372,7 @@ const ProductDetailsPage = () => {
                   {relatedProducts.length} more products in {category.name}
                 </p>
               </div>
-              
+
               <button
                 onClick={handleOpenRelated}
                 className="inline-flex items-center justify-center gap-2 bg-gray-100 text-gray-900 px-5 py-2.5 rounded-xl hover:bg-gray-200 transition-colors text-sm font-medium self-start sm:self-auto"
@@ -367,7 +382,7 @@ const ProductDetailsPage = () => {
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
-            
+
             {/* Preview Grid - Shows first 4 items */}
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
               {relatedProducts.slice(0, 4).map(({ item, sectionTitle }) => (
@@ -411,27 +426,25 @@ const ProductDetailsPage = () => {
 
       {/* Related Products Modal */}
       <div
-        className={`fixed inset-0 z-50 transition-all duration-300 ${
-          isRelatedOpen ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"
-        }`}
+        className={`fixed inset-0 z-50 transition-all duration-300 ${isRelatedOpen ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"
+          }`}
         role="dialog"
         aria-modal="true"
         aria-labelledby="related-products-title"
       >
         {/* Backdrop */}
-        <div 
+        <div
           className="absolute inset-0 bg-black/60 backdrop-blur-sm"
           onClick={handleCloseRelated}
         />
-        
+
         {/* Modal Container */}
         <div className="absolute inset-0 flex items-end sm:items-center justify-center p-0 sm:p-4 md:p-6 lg:p-8">
           <div
-            className={`relative w-full max-w-5xl max-h-[95vh] sm:max-h-[90vh] bg-white sm:rounded-2xl shadow-2xl flex flex-col transform transition-all duration-300 ${
-              isRelatedOpen 
-                ? "translate-y-0 scale-100" 
+            className={`relative w-full max-w-5xl max-h-[95vh] sm:max-h-[90vh] bg-white sm:rounded-2xl shadow-2xl flex flex-col transform transition-all duration-300 ${isRelatedOpen
+                ? "translate-y-0 scale-100"
                 : "translate-y-8 sm:translate-y-4 scale-95"
-            }`}
+              }`}
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
@@ -509,18 +522,16 @@ const ProductDetailsPage = () => {
 
       {/* Request Information Modal */}
       <div
-        className={`fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/60 backdrop-blur-sm transition-all duration-300 ${
-          isRequestOpen ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"
-        }`}
+        className={`fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 bg-black/60 backdrop-blur-sm transition-all duration-300 ${isRequestOpen ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"
+          }`}
         onClick={handleCloseRequest}
         role="dialog"
         aria-modal="true"
         aria-labelledby="request-info-title"
       >
         <div
-          className={`w-full max-w-2xl max-h-[95vh] sm:max-h-[90vh] overflow-y-auto bg-white sm:rounded-2xl shadow-2xl transform transition-all duration-300 ${
-            isRequestOpen ? "translate-y-0 scale-100" : "translate-y-8 sm:translate-y-4 scale-95"
-          }`}
+          className={`w-full max-w-2xl max-h-[95vh] sm:max-h-[90vh] overflow-y-auto bg-white sm:rounded-2xl shadow-2xl transform transition-all duration-300 ${isRequestOpen ? "translate-y-0 scale-100" : "translate-y-8 sm:translate-y-4 scale-95"
+            }`}
           onClick={(e) => e.stopPropagation()}
         >
           <div className="sticky top-0 bg-white flex items-start justify-between border-b border-gray-100 px-4 sm:px-6 py-4 sm:py-5 z-10">
