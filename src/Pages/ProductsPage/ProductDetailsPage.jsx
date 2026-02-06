@@ -349,13 +349,13 @@ const ProductDetailsPage = () => {
                 Request Information
               </button>
 
-              <Link
+              {/* <Link
                 to="/contact"
                 className="flex items-center justify-center gap-2 w-full bg-white text-gray-900 border border-gray-200 py-3.5 rounded-xl hover:bg-gray-50 transition-colors font-medium"
               >
                 <Download className="w-4 h-4" />
                 Download Datasheet
-              </Link>
+              </Link> */}
             </div>
           </div>
         </div>

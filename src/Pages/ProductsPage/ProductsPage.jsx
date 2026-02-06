@@ -96,7 +96,7 @@ const ProductsPage = () => {
       </p>
     </div>
     <div className="">
-    <h2 className="text-6xl lg:text-8xl font-serif font-light mb-8">
+    <h2 className="text-6xl lg:text-8xl  font-bold mb-8">
       Our full 
       <span className=" text-blue-700 italic"> lineup.</span>
     </h2>
@@ -116,7 +116,7 @@ const ProductsPage = () => {
     <div className="grid md:grid-cols-2 gap-x-8 gap-y-16">
       {productCategories.map((category, index) => {
         const visual = categoryVisuals[category.slug];
-        const Icon = visual.icon;
+       
         return (
           <Link
             key={category.slug}
