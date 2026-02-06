@@ -155,7 +155,7 @@ const AdminLayout = () => {
       >
         <div className="flex flex-col h-full">
           {/* Sidebar Header */}
-          <div className="flex items-center justify-between p-4 border-b bg-white border-gray-800">
+          <div className="flex items-center justify-between p-4 border-b  border-gray-800">
             <div className=" items-center">
               <div className="h-11 w-50 rounded-lg flex items-center justify-center overflow-hidden">
                 <img src={logo2} alt="Don Transducers" className="h-full w-full object-contain" />
