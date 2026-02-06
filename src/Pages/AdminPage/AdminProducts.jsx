@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { RefreshCcw, Trash2, ExternalLink, Search, Package } from "lucide-react";
+import { RefreshCcw, Trash2, ExternalLink, Search, Package, ChevronLeft, ChevronRight, Calendar } from "lucide-react";
 import {
   clearProductRequests,
   deleteProductRequest,
@@ -20,6 +20,12 @@ const AdminProducts = () => {
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  // Filter & Pagination states
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   // Modal states
   const [deleteModal, setDeleteModal] = useState({ open: false, id: null, name: "" });
@@ -44,19 +50,56 @@ const AdminProducts = () => {
   }, []);
 
   const filtered = useMemo(() => {
+    let result = requests;
+
+    // Date Filter
+    if (startDate) {
+      const start = new Date(startDate);
+      start.setHours(0, 0, 0, 0); // Start of day
+      result = result.filter((item) => {
+        const itemDate = new Date(item.createdAt);
+        return itemDate >= start;
+      });
+    }
+
+    if (endDate) {
+      const end = new Date(endDate);
+      end.setHours(23, 59, 59, 999); // End of day
+      result = result.filter((item) => {
+        const itemDate = new Date(item.createdAt);
+        return itemDate <= end;
+      });
+    }
+
+    // Search Filter
     const term = query.trim().toLowerCase();
-    if (!term) return requests;
-    return requests.filter((item) => {
-      const product = item.product || {};
-      return (
-        item.fullName?.toLowerCase().includes(term) ||
-        item.email?.toLowerCase().includes(term) ||
-        product.name?.toLowerCase().includes(term) ||
-        product.categoryName?.toLowerCase().includes(term) ||
-        product.sectionTitle?.toLowerCase().includes(term)
-      );
-    });
-  }, [requests, query]);
+    if (term) {
+      result = result.filter((item) => {
+        const product = item.product || {};
+        return (
+          item.fullName?.toLowerCase().includes(term) ||
+          item.email?.toLowerCase().includes(term) ||
+          product.name?.toLowerCase().includes(term) ||
+          product.categoryName?.toLowerCase().includes(term) ||
+          product.sectionTitle?.toLowerCase().includes(term)
+        );
+      });
+    }
+
+    return result;
+  }, [requests, query, startDate, endDate]);
+
+  // Pagination Logic
+  const totalPages = Math.ceil(filtered.length / itemsPerPage);
+  const paginatedItems = useMemo(() => {
+    const start = (currentPage - 1) * itemsPerPage;
+    return filtered.slice(start, start + itemsPerPage);
+  }, [filtered, currentPage]);
+
+  // Reset page when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [query, startDate, endDate]);
 
   const handleClear = async () => {
     setActionLoading(true);
@@ -88,11 +131,11 @@ const AdminProducts = () => {
   };
 
   const openDeleteModal = (id, productName, customerName) => {
-    setDeleteModal({ 
-      open: true, 
-      id, 
+    setDeleteModal({
+      open: true,
+      id,
       name: productName,
-      customer: customerName 
+      customer: customerName
     });
   };
 
@@ -127,14 +170,40 @@ const AdminProducts = () => {
       </div>
 
       {/* Search */}
-      <div className="relative max-w-md">
-        <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-        <input
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search by product, customer, category..."
-          className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent"
-        />
+      <div className="flex flex-col md:flex-row gap-4">
+        <div className="relative max-w-md flex-1">
+          <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+          <input
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search by product, customer, category..."
+            className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+          />
+        </div>
+        <div className="flex gap-2">
+          <div className="relative">
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none">
+              <Calendar size={16} />
+            </span>
+            <input
+              type="date"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              className="pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+            />
+          </div>
+          <div className="relative">
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none">
+              <Calendar size={16} />
+            </span>
+            <input
+              type="date"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+              className="pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent"
+            />
+          </div>
+        </div>
       </div>
 
       {/* Error */}
@@ -164,6 +233,9 @@ const AdminProducts = () => {
               <table className="w-full">
                 <thead className="bg-gray-50 border-b border-gray-200">
                   <tr>
+                    <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 uppercase tracking-wider w-12">
+                      #
+                    </th>
                     <th className="text-left px-4 py-3 text-xs font-semibold text-gray-600 uppercase tracking-wider">
                       Product
                     </th>
@@ -182,10 +254,14 @@ const AdminProducts = () => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
-                  {filtered.map((item) => {
+                  {paginatedItems.map((item, index) => {
                     const product = item.product || {};
+                    const itemIndex = (currentPage - 1) * itemsPerPage + index + 1;
                     return (
                       <tr key={item._id || item.id} className="hover:bg-gray-50">
+                        <td className="px-4 py-4 text-xs text-gray-500">
+                          {itemIndex}
+                        </td>
                         <td className="px-4 py-4">
                           <div className="flex items-center gap-3">
                             <div className="h-12 w-12 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
@@ -259,7 +335,7 @@ const AdminProducts = () => {
 
             {/* Mobile/Tablet Cards */}
             <div className="lg:hidden divide-y divide-gray-100">
-              {filtered.map((item) => {
+              {paginatedItems.map((item) => {
                 const product = item.product || {};
                 return (
                   <div key={item._id || item.id} className="p-4">
@@ -323,6 +399,64 @@ const AdminProducts = () => {
           </>
         )}
       </div>
+
+      {/* Pagination Controls */}
+      {filtered.length > 0 && (
+        <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6 rounded-lg">
+          <div className="flex flex-1 justify-between sm:hidden">
+            <button
+              onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+              disabled={currentPage === 1}
+              className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+            >
+              Previous
+            </button>
+            <button
+              onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+              disabled={currentPage === totalPages}
+              className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50"
+            >
+              Next
+            </button>
+          </div>
+          <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+            <div>
+              <p className="text-sm text-gray-700">
+                Showing <span className="font-medium">{(currentPage - 1) * itemsPerPage + 1}</span> to{" "}
+                <span className="font-medium">
+                  {Math.min(currentPage * itemsPerPage, filtered.length)}
+                </span>{" "}
+                of <span className="font-medium">{filtered.length}</span> results
+              </p>
+            </div>
+            <div>
+              <nav className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+                <button
+                  onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                  disabled={currentPage === 1}
+                  className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 disabled:opacity-50"
+                >
+                  <span className="sr-only">Previous</span>
+                  <ChevronLeft className="h-5 w-5" aria-hidden="true" />
+                </button>
+                {/* Simple page info in center for now, or listing numbers */}
+                <span className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 focus:outline-offset-0">
+                  Page {currentPage} of {totalPages}
+                </span>
+
+                <button
+                  onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                  disabled={currentPage === totalPages}
+                  className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 disabled:opacity-50"
+                >
+                  <span className="sr-only">Next</span>
+                  <ChevronRight className="h-5 w-5" aria-hidden="true" />
+                </button>
+              </nav>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Delete One Modal */}
       <ConfirmModal

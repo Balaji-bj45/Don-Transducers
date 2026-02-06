@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { ShieldCheck, LogIn, LogOut, Package, PhoneCall, Menu, X } from "lucide-react";
 import { getAdminProfile, loginAdmin, logoutAdmin } from "../../data/adminApi";
+import logo2 from "../../assets/logo2.png";
 
 const AdminLayout = () => {
   const navigate = useNavigate();
@@ -91,66 +92,48 @@ const AdminLayout = () => {
   // Login Page
   if (!isAuthed) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-        <div className="w-full max-w-sm">
-          {/* Logo */}
-          <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center h-14 w-14 rounded-xl bg-gray-900 mb-4">
-              <ShieldCheck className="text-white" size={24} />
-            </div>
-            <h1 className="text-xl font-semibold text-gray-900">Admin Login</h1>
-            <p className="text-sm text-gray-500 mt-1">Don Transducers</p>
-          </div>
+     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
+  <div className="w-full max-w-sm bg-white rounded-3xl p-9 shadow-lg">
+    <img
+      src={logo2}
+      alt="Don Transducers"
+      className="h-16 w-auto mx-auto mb-10"
+    />
+    
 
-          {/* Login Form */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <form onSubmit={onLoginSubmit} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Username
-                </label>
-                <input
-                  type="text"
-                  name="username"
-                  value={login.username}
-                  onChange={onLoginChange}
-                  placeholder="Enter username"
-                  className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent"
-                />
-              </div>
+    <form onSubmit={onLoginSubmit} className="space-y-4">
+      <input
+        type="text"
+        name="username"
+        value={login.username}
+        onChange={onLoginChange}
+        placeholder="Username"
+        className="w-full px-5 py-3 text-gray-800 bg-gray-100 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
+      />
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Password
-                </label>
-                <input
-                  type="password"
-                  name="password"
-                  value={login.password}
-                  onChange={onLoginChange}
-                  placeholder="Enter password"
-                  className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent"
-                />
-              </div>
+      <input
+        type="password"
+        name="password"
+        value={login.password}
+        onChange={onLoginChange}
+        placeholder="Password"
+        className="w-full px-5 py-3 text-gray-800 bg-gray-100 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
+      />
 
-              {loginError && (
-                <div className="bg-red-50 text-red-600 text-sm px-3 py-2 rounded-lg">
-                  {loginError}
-                </div>
-              )}
+      {loginError && (
+        <p className="text-red-500 text-xs text-center">{loginError}</p>
+      )}
 
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full bg-gray-900 text-white py-2.5 rounded-lg text-sm font-medium hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-              >
-                <LogIn size={16} />
-                {isSubmitting ? "Signing in..." : "Sign In"}
-              </button>
-            </form>
-          </div>
-        </div>
-      </div>
+      <button
+        type="submit"
+        disabled={isSubmitting}
+        className="w-full py-3 bg-gray-900 text-white rounded-full text-sm font-medium hover:bg-gray-800 disabled:opacity-50 mt-2"
+      >
+        {isSubmitting ? "Signing in..." : "Sign In"}
+      </button>
+    </form>
+  </div>
+</div>
     );
   }
 
@@ -167,21 +150,17 @@ const AdminLayout = () => {
 
       {/* Sidebar */}
       <aside
-        className={`fixed lg:static inset-y-0 left-0 z-50 w-64 bg-gray-900 transform transition-transform duration-200 ease-in-out ${
-          sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
-        }`}
+        className={`fixed lg:static inset-y-0 left-0 z-50 w-64 bg-gray-900 transform transition-transform duration-200 ease-in-out ${sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+          }`}
       >
         <div className="flex flex-col h-full">
           {/* Sidebar Header */}
-          <div className="flex items-center justify-between p-4 border-b border-gray-800">
-            <div className="flex items-center gap-3">
-              <div className="h-9 w-9 rounded-lg bg-white/10 flex items-center justify-center">
-                <ShieldCheck size={18} className="text-white" />
+          <div className="flex items-center justify-between p-4 border-b bg-white border-gray-800">
+            <div className=" items-center">
+              <div className="h-11 w-50 rounded-lg flex items-center justify-center overflow-hidden">
+                <img src={logo2} alt="Don Transducers" className="h-full w-full object-contain" />
               </div>
-              <div>
-                <p className="text-xs text-gray-400">Don Transducers</p>
-                <p className="text-sm font-medium text-white">Admin Panel</p>
-              </div>
+              
             </div>
             <button
               onClick={() => setSidebarOpen(false)}
@@ -198,10 +177,9 @@ const AdminLayout = () => {
                 key={to}
                 to={to}
                 className={({ isActive }) =>
-                  `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                    isActive
-                      ? "bg-white text-gray-900"
-                      : "text-gray-300 hover:bg-gray-800 hover:text-white"
+                  `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${isActive
+                    ? "bg-white text-gray-900"
+                    : "text-gray-300 hover:bg-gray-800 hover:text-white"
                   }`
                 }
               >
