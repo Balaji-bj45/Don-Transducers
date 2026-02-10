@@ -1,6 +1,6 @@
 import React from 'react';
 import { Speaker, Layers, Settings, Disc, ArrowRight } from 'lucide-react';
-import Speakers from '../assets/Images/1.jpg';
+import Speakers from '../../assets/Images/1.jpg';
 
 const About = () => {
   const features = [

@@ -9,7 +9,7 @@ import {
   Cpu,
   Layers,
 } from "lucide-react";
-import img from "../assets/Images/8.png";
+import img from "../../assets/Images/8.png";
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {

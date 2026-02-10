@@ -1,6 +1,6 @@
 import React from "react";
 import { Ruler, Zap, ArrowUpRight } from "lucide-react";
-import speaker from "../assets/Images/speaker.png";
+import speaker from "../../assets/Images/speaker.png";
 
 const ProductTransparency = () => {
   return (

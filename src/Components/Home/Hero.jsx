@@ -3,9 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Minus, Scan, Activity, Radio } from 'lucide-react';
 
 // Import Assets
-import v1 from "../assets/Videos/video1.mp4";
-import v2 from "../assets/Videos/video2.mp4";
-import v3 from "../assets/Videos/video3.mp4";
+import v1 from "../../assets/Videos/video1.mp4";
+import v2 from "../../assets/Videos/video2.mp4";
+import v3 from "../../assets/Videos/video3.mp4";
 
 const HeroTechnicalGrid = () => {
   const [currentIndex, setCurrentIndex] = useState(0);

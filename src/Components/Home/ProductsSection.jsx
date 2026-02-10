@@ -1,8 +1,8 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Speaker, Layers, Disc, Box, ArrowRight, ArrowUpRight } from "lucide-react";
-import img2 from "../assets/Images/1.jpg";
-import img3 from "../assets/Images/6.png";
+import img2 from "../../assets/Images/1.jpg";
+import img3 from "../../assets/Images/6.png";
 
 const products = [
   {
