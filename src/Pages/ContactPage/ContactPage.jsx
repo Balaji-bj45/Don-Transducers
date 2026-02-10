@@ -67,7 +67,7 @@ const ContactPage = () => {
     "https://www.google.com/maps?q=Industrial%20Area%2C%20Sector%2012%2C%20New%20Delhi%2C%20India&output=embed";
 
   return (
-    <div className="bg-black text-white">
+    <div className="bg-white text-black">
       <Hero variants={variants} />
       <FormSection
         variants={variants}
