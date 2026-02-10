@@ -9,144 +9,129 @@ function Navbar() {
   const [lastScrollY, setLastScrollY] = useState(0);
   const location = useLocation();
 
-  // 🔥 Scroll logic (hide on down, show on up)
+  const links = [
+    { name: "Home", path: "/" },
+    { name: "About", path: "/about" },
+    { name: "Products", path: "/products" },
+    { name: "Events", path: "/events" },
+    { name: "Contact", path: "/contact" },
+  ];
+
   useEffect(() => {
-    const handleScroll = () => {
-      const currentY = window.scrollY;
-
-      if (currentY < lastScrollY) {
-        setShowNav(true);
-      } else if (currentY > lastScrollY && currentY > 80) {
-        setShowNav(false);
-      }
-
-      setScrolled(currentY > 50);
-      setLastScrollY(currentY);
+    const onScroll = () => {
+      const y = window.scrollY;
+      setShowNav(y < lastScrollY || y < 10);
+      setScrolled(y > 40);
+      setLastScrollY(y);
     };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, [lastScrollY]);
 
-  // Close menu on route change
-  useEffect(() => {
-    setOpen(false);
-  }, [location]);
+  useEffect(() => setOpen(false), [location]);
 
-  // Lock body scroll when mobile menu open
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     return () => (document.body.style.overflow = "");
   }, [open]);
 
+  const active = (p) => location.pathname === p;
+
   return (
     <>
-      {/* NAVBAR */}
-      <nav
-        className={`fixed top-0 left-0 right-0 z-50 transform transition-all duration-500 ease-in-out
-          ${showNav ? "translate-y-0" : "-translate-y-full"}
-          ${scrolled ? "bg-black shadow-lg" : "bg-transparent"}
-        `}
+      <header
+        className={`fixed inset-x-0 top-0 z-50 transition-all duration-500
+          ${showNav ? "translate-y-0" : "-translate-y-full"}`}
       >
-        <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-          {/* LOGO */}
-          <Link to="/" className="flex items-center">
+        <div
+          className={`absolute inset-0 transition-all duration-500
+            ${scrolled
+              ? "bg-black/50 backdrop-blur-md shadow-[0_1px_0_rgba(255,255,255,0.04)]"
+              : "bg-transparent"
+            }`}
+        />
+
+        <div className="relative max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+          {/* Logo */}
+          <Link to="/">
             <img
               src={logo}
-              alt="Don Transducers"
-              className={`h-9 transition-all duration-300 ${
-                scrolled ? "" : "brightness-0 invert"
-              }`}
+              alt="Logo"
+              className="h-8 brightness-0 invert opacity-90 hover:opacity-100 transition-opacity"
             />
           </Link>
 
-          {/* DESKTOP MENU */}
-          <div className="hidden lg:flex items-center gap-8 text-sm font-medium text-white">
-            <NavLink to="/">Home</NavLink>
-            <NavLink to="/about">About</NavLink>
+          {/* Desktop */}
+          <nav className="hidden md:flex items-center gap-1">
+            {links.map((l) => (
+              <Link
+                key={l.path}
+                to={l.path}
+                className={`px-4 py-1.5 rounded-full text-sm transition-all duration-300
+                  ${active(l.path)
+                    ? "text-white bg-white/10"
+                    : "text-white/50 hover:text-white hover:bg-white/5"
+                  }`}
+              >
+                {l.name}
+              </Link>
+            ))}
+          </nav>
 
-            {/* ✅ ONLY PRODUCTS LINK (No Dropdown) */}
-            <NavLink to="/products">Products</NavLink>
-
-            <NavLink to="/events">Events</NavLink>
-            <NavLink to="/contact">Contact</NavLink>
-          </div>
-
-          {/* MOBILE TOGGLE */}
-          <button onClick={() => setOpen(!open)} className="lg:hidden text-white">
-            <div className="w-6 h-6 relative">
-              <span
-                className={`absolute w-full h-0.5 bg-white transition ${
-                  open ? "rotate-45 top-3" : "top-1"
-                }`}
-              />
-              <span
-                className={`absolute w-full h-0.5 bg-white top-3 transition ${
-                  open ? "opacity-0" : ""
-                }`}
-              />
-              <span
-                className={`absolute w-full h-0.5 bg-white transition ${
-                  open ? "-rotate-45 top-3" : "bottom-1"
-                }`}
-              />
-            </div>
+          {/* Mobile toggle */}
+          <button
+            onClick={() => setOpen(!open)}
+            className="md:hidden flex flex-col gap-[5px] w-7 py-2"
+            aria-label="Menu"
+          >
+            <span
+              className={`h-[1.5px] rounded bg-white transition-all duration-300
+                ${open ? "rotate-45 translate-y-[6.5px] w-full" : "w-full"}`}
+            />
+            <span
+              className={`h-[1.5px] rounded bg-white transition-all duration-200
+                ${open ? "opacity-0 w-0" : "w-3/5"}`}
+            />
+            <span
+              className={`h-[1.5px] rounded bg-white transition-all duration-300
+                ${open ? "-rotate-45 -translate-y-[6.5px] w-full" : "w-4/5"}`}
+            />
           </button>
         </div>
+      </header>
 
-        {/* MOBILE MENU */}
+      {/* Mobile menu */}
+      <div
+        className={`fixed inset-0 z-40 md:hidden transition-all duration-500
+          ${open ? "visible" : "invisible pointer-events-none"}`}
+      >
         <div
-          className={`lg:hidden transition-all duration-300 overflow-hidden
-          ${open ? "max-h-screen opacity-100" : "max-h-0 opacity-0"}
-          bg-black`}
-        >
-          <div className="px-6 py-6 space-y-4 text-white">
-            <MobileLink to="/" onClick={() => setOpen(false)}>
-              Home
-            </MobileLink>
+          className={`absolute inset-0 bg-black/95 backdrop-blur-sm transition-opacity duration-500
+            ${open ? "opacity-100" : "opacity-0"}`}
+          onClick={() => setOpen(false)}
+        />
 
-            <MobileLink to="/about" onClick={() => setOpen(false)}>
-              About
-            </MobileLink>
-
-            {/* ✅ ONLY PRODUCTS LINK (No list) */}
-            <MobileLink to="/products" onClick={() => setOpen(false)}>
-              Products
-            </MobileLink>
-
-            <MobileLink to="/events" onClick={() => setOpen(false)}>
-              Events
-            </MobileLink>
-
-            <MobileLink to="/contact" onClick={() => setOpen(false)}>
-              Contact
-            </MobileLink>
-          </div>
+        <div className="relative h-full flex flex-col items-center justify-center gap-3 px-6">
+          {links.map((l, i) => (
+            <Link
+              key={l.path}
+              to={l.path}
+              onClick={() => setOpen(false)}
+              className={`w-full max-w-xs text-center py-3 rounded-2xl text-xl font-light transition-all duration-500
+                ${open ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"}
+                ${active(l.path)
+                  ? "text-white bg-white/[0.06]"
+                  : "text-white/35 hover:text-white hover:bg-white/[0.03]"
+                }`}
+              style={{ transitionDelay: open ? `${i * 60}ms` : "0ms" }}
+            >
+              {l.name}
+            </Link>
+          ))}
         </div>
-      </nav>
+      </div>
     </>
   );
 }
-
-/* HELPERS */
-
-const NavLink = ({ to, children }) => (
-  <Link
-    to={to}
-    className="relative after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:w-0 after:bg-blue-500 hover:after:w-full after:transition-all"
-  >
-    {children}
-  </Link>
-);
-
-const MobileLink = ({ to, children, onClick }) => (
-  <Link
-    to={to}
-    onClick={onClick}
-    className="block text-lg font-medium hover:text-blue-400 transition"
-  >
-    {children}
-  </Link>
-);
 
 export default Navbar;

@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft,
   Download,
@@ -15,6 +16,48 @@ import {
 } from "lucide-react";
 import { getProductBySlug } from "../../data/productsData";
 import { createProductRequest } from "../../data/adminApi";
+
+const ProductZoomLens = ({ image, alt }) => {
+  const [isHovered, setIsHovered] = React.useState(false);
+  const [mousePos, setMousePos] = React.useState({ x: 50, y: 50 });
+  const containerRef = React.useRef(null);
+
+  const handleMouseMove = (e) => {
+    if (!containerRef.current) return;
+    const { left, top, width, height } = containerRef.current.getBoundingClientRect();
+    const x = ((e.clientX - left) / width) * 100;
+    const y = ((e.clientY - top) / height) * 100;
+    setMousePos({ x, y });
+  };
+
+  return (
+    <div
+      ref={containerRef}
+      className="relative w-full h-full overflow-hidden cursor-zoom-in bg-gray-50 rounded-2xl"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onMouseMove={handleMouseMove}
+    >
+      <img
+        src={image}
+        alt={alt}
+        className="w-full h-full object-cover transition-transform duration-200 ease-out will-change-transform"
+        style={{
+          transformOrigin: `${mousePos.x}% ${mousePos.y}%`,
+          transform: isHovered ? "scale(2)" : "scale(1)",
+        }}
+      />
+
+      {!isHovered && (
+        <div className="absolute top-4 right-4 pointer-events-none">
+          <div className="p-2 bg-white/80 backdrop-blur-sm rounded-lg shadow-sm border border-black/5 text-gray-400">
+            <Plus className="w-4 h-4" />
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
 
 const ProductDetailsPage = () => {
   const { categorySlug, productSlug } = useParams();
@@ -243,10 +286,9 @@ const ProductDetailsPage = () => {
             <div className="lg:sticky lg:top-28">
               <div className="aspect-square bg-gray-50 rounded-2xl overflow-hidden mb-4">
                 {currentImage ? (
-                  <img
-                    src={currentImage}
+                  <ProductZoomLens
+                    image={currentImage}
                     alt={product.name}
-                    className="w-full h-full object-cover"
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
@@ -442,8 +484,8 @@ const ProductDetailsPage = () => {
         <div className="absolute inset-0 flex items-end sm:items-center justify-center p-0 sm:p-4 md:p-6 lg:p-8">
           <div
             className={`relative w-full max-w-5xl max-h-[95vh] sm:max-h-[90vh] bg-white sm:rounded-2xl shadow-2xl flex flex-col transform transition-all duration-300 ${isRelatedOpen
-                ? "translate-y-0 scale-100"
-                : "translate-y-8 sm:translate-y-4 scale-95"
+              ? "translate-y-0 scale-100"
+              : "translate-y-8 sm:translate-y-4 scale-95"
               }`}
             onClick={(e) => e.stopPropagation()}
           >
