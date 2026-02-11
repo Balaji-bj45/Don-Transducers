@@ -57,7 +57,7 @@ function Navbar() {
             <img
               src={logo}
               alt="Logo"
-              className="h-8 brightness-0 invert opacity-90 hover:opacity-100 transition-opacity"
+              className="h-10 "
             />
           </Link>
 
