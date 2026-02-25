@@ -10,6 +10,49 @@ import imgDiaphragm from "../assets/Images/8.png";
 import imgCabinet from "../assets/Images/background.png";
 import imgEvents from "../assets/Images/events.jpg";
 
+import img12X200B1 from "../assets/Passive Speaker Drivers/12\u201d speakers/12X200B/1.jpeg";
+import img12X200B2 from "../assets/Passive Speaker Drivers/12\u201d speakers/12X200B/IMG_6363.JPG.jpeg";
+import img12X200B3 from "../assets/Passive Speaker Drivers/12\u201d speakers/12X200B/IMG_6364.JPG.jpeg";
+import img12X200B4 from "../assets/Passive Speaker Drivers/12\u201d speakers/12X200B/IMG_6365.JPG.jpeg";
+import img12X200Mix1 from "../assets/Passive Speaker Drivers/12\u201d speakers/12X200B AND 12X200W MIX/IMG_5020.JPG.jpeg";
+import img12X200Mix2 from "../assets/Passive Speaker Drivers/12\u201d speakers/12X200B AND 12X200W MIX/IMG_5025.JPG.jpeg";
+import img12X200W1 from "../assets/Passive Speaker Drivers/12\u201d speakers/12X200W/IMG_6346.JPG.jpeg";
+import img12X200W2 from "../assets/Passive Speaker Drivers/12\u201d speakers/12X200W/IMG_6352.JPG.jpeg";
+import img12X200W3 from "../assets/Passive Speaker Drivers/12\u201d speakers/12X200W/IMG_6354.JPG.jpeg";
+import img12X200W4 from "../assets/Passive Speaker Drivers/12\u201d speakers/12X200W/IMG_6356.JPG.jpeg";
+import img12X500B1 from "../assets/Passive Speaker Drivers/12\u201d speakers/12X500B/20250702_113528.jpg.jpeg";
+import img12X500B2 from "../assets/Passive Speaker Drivers/12\u201d speakers/12X500B/20250702_113609.jpg.jpeg";
+import img12X500B3 from "../assets/Passive Speaker Drivers/12\u201d speakers/12X500B/20250702_113620.jpg.jpeg";
+import img12X500B4 from "../assets/Passive Speaker Drivers/12\u201d speakers/12X500B/20250702_113649.jpg.jpeg";
+import img12X500B5 from "../assets/Passive Speaker Drivers/12\u201d speakers/12X500B/20250702_113710.jpg.jpeg";
+import img12X500B6 from "../assets/Passive Speaker Drivers/12\u201d speakers/12X500B/20250702_113737.jpg.jpeg";
+import img12X500NEO1 from "../assets/Passive Speaker Drivers/12\u201d speakers/12X500NEO/20250129_131055(1).jpg.jpeg";
+import img12X500NEO2 from "../assets/Passive Speaker Drivers/12\u201d speakers/12X500NEO/20250129_131055.jpg.jpeg";
+import img12X500NEO3 from "../assets/Passive Speaker Drivers/12\u201d speakers/12X500NEO/20250129_131145.jpg.jpeg";
+import img15X400B1 from "../assets/Passive Speaker Drivers/15\u201d Speakers/15X400B/IMG-20250929-WA0044.jpg.jpeg";
+import img15X400B2 from "../assets/Passive Speaker Drivers/15\u201d Speakers/15X400B/IMG-20250929-WA0045.jpg.jpeg";
+import img15X500BB1 from "../assets/Passive Speaker Drivers/15\u201d Speakers/15X500BB/IMG-20250318-WA0007.jpg.jpeg";
+import img15X500BB2 from "../assets/Passive Speaker Drivers/15\u201d Speakers/15X500BB/IMG-20250318-WA0012.jpg.jpeg";
+import img15X500BB3 from "../assets/Passive Speaker Drivers/15\u201d Speakers/15X500BB/IMG-20250318-WA0013.jpg.jpeg";
+import img15X500BB4 from "../assets/Passive Speaker Drivers/15\u201d Speakers/15X500BB/IMG-20250318-WA0015.jpg.jpeg";
+import img15X500BW1 from "../assets/Passive Speaker Drivers/15\u201d Speakers/15X500BW/20250924_123512.jpg.jpeg";
+import img15X500BW2 from "../assets/Passive Speaker Drivers/15\u201d Speakers/15X500BW/20250924_123514.jpg.jpeg";
+import img15X500BW3 from "../assets/Passive Speaker Drivers/15\u201d Speakers/15X500BW/20250924_123533(0).jpg.jpeg";
+import img15X500BW4 from "../assets/Passive Speaker Drivers/15\u201d Speakers/15X500BW/20250924_123607.jpg.jpeg";
+import img15X800B1 from "../assets/Passive Speaker Drivers/15\u201d Speakers/15X800B/IMG-20250621-WA0018.jpg.jpeg";
+import img15X800B2 from "../assets/Passive Speaker Drivers/15\u201d Speakers/15X800B/IMG-20250621-WA0023.jpg.jpeg";
+import img18X1200B1 from "../assets/Passive Speaker Drivers/18\u201d Speakers/18X1200B/1_20260130_150601_0000.jpg.jpeg";
+import img18X1200B2 from "../assets/Passive Speaker Drivers/18\u201d Speakers/18X1200B/2_20260130_150601_0001.jpg.jpeg";
+import img18X1200B3 from "../assets/Passive Speaker Drivers/18\u201d Speakers/18X1200B/3_20260130_150601_0002.jpg.jpeg";
+import img18X1500B1 from "../assets/Passive Speaker Drivers/18\u201d Speakers/18X1500B/IMG-20250507-WA0028.jpg.jpeg";
+import img18X1500B2 from "../assets/Passive Speaker Drivers/18\u201d Speakers/18X1500B/IMG_1842.JPG.jpeg";
+import img18X1500B3 from "../assets/Passive Speaker Drivers/18\u201d Speakers/18X1500B/IMG_1847.JPG.jpeg";
+import img450Network1 from "../assets/Passive Crossover/450 Network/IMG_6792.JPG.jpeg";
+import img450Network2 from "../assets/Passive Crossover/450 Network/IMG_6793.JPG.jpeg";
+import img750Network1 from "../assets/Passive Crossover/750 Network/IMG_6789.JPG.jpeg";
+import img750Network2 from "../assets/Passive Crossover/750 Network/IMG_6790.JPG.jpeg";
+import img750Network3 from "../assets/Passive Crossover/750 Network/IMG_6791.JPG.jpeg";
+
 const slugify = (value) =>
   value
     .toLowerCase()
@@ -28,15 +71,32 @@ const buildImageGallery = (primaryImage, additionalImages = []) => {
   return unique;
 };
 
+const productRealImagesByName = {
+  "12X200w": [img12X200W1, img12X200W2, img12X200W3, img12X200W4, img12X200Mix1, img12X200Mix2],
+  "12X200B": [img12X200B1, img12X200B2, img12X200B3, img12X200B4, img12X200Mix1, img12X200Mix2],
+  "12X500B": [img12X500B1, img12X500B2, img12X500B3, img12X500B4, img12X500B5, img12X500B6],
+  "12X500NEO": [img12X500NEO1, img12X500NEO2, img12X500NEO3],
+  "15X400B": [img15X400B1, img15X400B2],
+  "15X500BB": [img15X500BB1, img15X500BB2, img15X500BB3, img15X500BB4],
+  "15X500BW": [img15X500BW1, img15X500BW2, img15X500BW3, img15X500BW4],
+  "15X800B": [img15X800B1, img15X800B2],
+  "18X1200B": [img18X1200B1, img18X1200B2, img18X1200B3],
+  "18X1500B": [img18X1500B1, img18X1500B2, img18X1500B3],
+  "450 Network Board": [img450Network1, img450Network2],
+  "750 Network Board": [img750Network1, img750Network2, img750Network3],
+};
+
 const buildProduct = (product) => {
   const suppliedImages = Array.isArray(product.images) ? product.images : [];
-  const primaryImage = product.image || suppliedImages[0] || null;
+  const preferredImages = productRealImagesByName[product.name] || [];
+  const imagesToUse = preferredImages.length ? preferredImages : suppliedImages;
+  const primaryImage = preferredImages[0] || product.image || suppliedImages[0] || null;
 
   return {
     ...product,
     slug: product.slug || slugify(product.name),
     image: primaryImage,
-    images: buildImageGallery(primaryImage, suppliedImages),
+    images: buildImageGallery(primaryImage, imagesToUse),
   };
 };
 
@@ -450,3 +510,4 @@ export const getProductBySlug = (categorySlug, productSlug) => {
 
 export const getAllProductsForCategory = (category) =>
   category.sections.flatMap((section) => section.products);
+
